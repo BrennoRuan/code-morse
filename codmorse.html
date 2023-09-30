@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codificação Morse</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+    <div class="navbar">
+        <a href="../pagina-1/index.html">Inicio</a>
+        <a href="../calculadora-juros/index.html">Calcular Juros</a>
+        <a href="../calcular-peri-area/index.html">Medição de Área</a>
+        <a href="../conversor-medidas/index.html">Coverter Medidas</a>
+        <a href="../gerador-lorem/index.html">Gerar Lorem</a>
+        <a href="../gerador-senhas/index.html">Gerador de Senha</a>
+    </div>
+
+
+
+    <h1 class="title">Codificação e Decodificação de Código Morse</h1>
+
+    <h2>Codificar Texto</h2>
+    <input type="text" id="inputCodificar" placeholder="Texto para codificar" class="inputCod">
+    <button onclick="codificar()" class="button-cod">Codificar</button>
+
+    <h2>Decodificar Texto</h2>
+    <input type="text" id="inputDecodificar" placeholder="Código Morse para Decodificação" class="inputDec">
+    <button onclick="decodificar()" class="button-dec">Decodificar</button>
+
+    <h2 id="result">Resultado</h2>
+    <p id="result-cod">Codificado: <span id="resultadoCodificar" onclick="copiarTexto(this)"></span></p>
+    <p id="result-dec">Decodificado: <span id="resultadoDecodificar" onclick="copiarTexto(this)"></span></p>
+
+    <script>
+        const morseCode = {
+            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.',
+            'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---',
+            'K': '-.-', 'L': '.-..', 'M': '--', 'N': '-.', 'O': '---',
+            'P': '.--.', 'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-',
+            'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-', 'Y': '-.--',
+            'Z': '--..', '0': '-----', '1': '.----', '2': '..---', '3': '...--',
+            '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..',
+            '9': '----.', ' ': '/'
+        }
+
+        function codificar() {
+            const texto = document.getElementById('inputCodificar').value.toUpperCase();
+            let resultado = '';
+            for (let i = 0; i < texto.length; i++) {
+                if (morseCode.hasOwnProperty(texto[i])) {
+                    resultado += morseCode[texto[i]] + " ";
+                } else {
+                    resultado += [texto[i]];
+                }
+            }
+            document.getElementById('resultadoCodificar').textContent = resultado.trim();
+        }
+
+        function decodificar() {
+            const codigoMorse = document.getElementById('inputDecodificar').value.trim().split(" ");
+            let resultado = "";
+            for (let i = 0; i < codigoMorse.length; i++) {
+                if (codigoMorse[i] === "/") {
+                    resultado += " ";
+                } else {
+                    for (const letra in morseCode) {
+                        if (morseCode[letra] === codigoMorse[i]) {
+                            resultado += letra;
+                            break;
+                        }
+                    }
+                }
+            }
+            document.getElementById('resultadoDecodificar').textContent = resultado;
+        }
+
+        function copiarTexto(elemento) {
+            const texto = elemento.textContent;
+
+            const inputTemporario = document.createElement('input');
+            inputTemporario.value = texto;
+
+            document.body.appendChild(inputTemporario);
+            inputTemporario.select();
+            document.execCommand('copy');
+            document.body.removeChild(inputTemporario);
+
+            alert('Texto copiado para a área de transferência: ' + texto);
+        }
+    </script>
+    <p><a href="#">Voltar</a></p>
+    <p><a href="../tarefas/tarefas.html">Criar Tarefas</a></p>
+</body>
+</html>
